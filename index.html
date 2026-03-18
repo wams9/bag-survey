@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Build Africa Group — Étude de Marché</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/*
+  ═══════════════════════════════════════════════════
+  PALETTE — Basée sur #FFBF00 (Yamabuki-iro)
+  Référence : Nippon Colors + cercle chromatique
+
+  #FFBF00 = Yamabuki-iro (山吹色) — or japonais
+             Analogue chaud, saturé, vibrant
+
+  Harmonies choisies :
+  ┌─────────────────────────────────────────────────
+  │ Primaire     #FFBF00  Yamabuki — or ambré
+  │ Foncé        #CC9600  Kogane   — or sombre
+  │ Très foncé   #8A6400  Tamago   — or brun
+  │
+  │ Complémentaire  #005FFF  Ruri-iro — bleu lapis
+  │ Split-comp 1    #0099CC  Hanada   — bleu azur
+  │ Split-comp 2    #00CCAA  Malachite vert cyan
+  │
+  │ Neutre sombre   #1A1200  Kuro-cha — noir brun chaud
+  │ Neutre moyen    #4A3800  Kabi-iro — marron chaud
+  │ Muted           #8A7040  Usucha   — beige chaud
+  │
+  │ Fond            #FFFDF0  Shironeri— blanc ivoire
+  │ Fond carte      #FFFFFF
+  │ Bordure         #FFE8A0  Kinmokusei— bordure dorée
+  │ Dust            #FFF6D0  Wakakusa — fond clair doré
+  └─────────────────────────────────────────────────
+*/
+:root {
+  --gold:    #FFBF00;
+  --gold2:   #D49D00;
+  --gold3:   #A37800;
+  --blue:    #005FFF;
+  --blue2:   #0044CC;
+  --cyan:    #00CCAA;
+  --ink:     #111111;
+  --ink2:    #222222;
+  --muted:   #777777;
+  --bg:      #FFFFFF;
+  --card:    #FFFFFF;
+  --border:  #F0E0A0;
+  --dust:    #FFF8E0;
+
+  color-scheme: light only;
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --ease-out:    cubic-bezier(.22,1,.36,1);
+  --ease-snap:   cubic-bezier(.4,0,.2,1);
+  --ease-back:   cubic-bezier(.68,-.6,.32,1.6);
+}
+
+*, *::before, *::after {
+  margin:0; padding:0; box-sizing:border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html { height:100%; background:#1A1400 !important; color:#FFFFFF !important; }
+body {
+  height:100%;
+  font-family:'Sora',sans-serif;
+  background:#1A1400 !important;
+  color:#FFFFFF !important;
+  overscroll-behavior:none;
+}
+
+/* ══════════════════════════════════════════
+   APP SHELL — Layout fixe 3 zones
+   [HEADER fixe] + [CONTENT scroll] + [FOOTER fixe]
+══════════════════════════════════════════ */
+.app {
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  height:100dvh;
+  overflow:hidden;
+  max-width:520px;
+  margin:0 auto;
+}
+
+/* ── HEADER ── */
+.hdr {
+  flex-shrink:0;
+  padding:14px 20px 10px;
+  background:#1A1400;
+  border-bottom:1.5px solid #3D2E00;
+  z-index:20;
+}
+.hdr-top {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:10px;
+}
+.logo {
+  display:flex; align-items:center; gap:9px;
+}
+.logo-mark {
+  width:33px; height:33px;
+  background:var(--gold);
+  border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Fraunces',serif;
+  font-weight:900; font-size:.95rem;
+  color:#1A1400;
+  box-shadow:0 3px 10px rgba(255,191,0,.3);
+}
+.logo-name {
+  font-family:'Fraunces',serif;
+  font-weight:700; font-size:.82rem;
+  color:#FFFFFF; letter-spacing:-.01em;
+  line-height:1.1;
+}
+.logo-tag {
+  font-size:.6rem; color:#B0A080;
+  font-weight:400; letter-spacing:.04em;
+}
+.counter {
+  background:#261D00;
+  border:1.5px solid #3D2E00;
+  border-radius:20px;
+  padding:4px 12px;
+  font-size:.7rem; font-weight:600;
+  color:#B0A080;
+}
+.counter b { color:var(--gold2); font-weight:700; }
+
+/* PROGRESS */
+.prog-wrap {
+  height:5px; background:#2E2200;
+  border-radius:3px; overflow:hidden;
+}
+.prog-bar {
+  height:100%;
+  background:linear-gradient(90deg, var(--gold), var(--gold2));
+  border-radius:3px;
+  transition:width .5s var(--ease-out);
+  width:0%;
+  box-shadow:0 0 10px rgba(255,191,0,.5);
+}
+
+/* ── CONTENT ── */
+.content {
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  position:relative;
+  scroll-behavior:smooth;
+  background:#1A1400;
+}
+
+/* ── FOOTER STICKY ── */
+.ftr {
+  flex-shrink:0;
+  padding:10px 20px 18px;
+  background:#1A1400;
+  border-top:1.5px solid #3D2E00;
+  z-index:20;
+}
+
+/* ══════════════════════════════════════════
+   BOUTONS
+══════════════════════════════════════════ */
+.btn-next {
+  width:100%;
+  padding:16px 20px;
+  background:var(--gold);
+  color:var(--ink);
+  border:none; border-radius:14px;
+  font-size:.97rem; font-weight:700;
+  font-family:'Sora',sans-serif;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:all .2s var(--ease-spring);
+  letter-spacing:-.01em;
+  box-shadow:0 4px 18px rgba(255,191,0,.35);
+  position:relative; overflow:hidden;
+}
+.btn-next::after {
+  content:'';
+  position:absolute; inset:0;
+  background:white; opacity:0;
+  transition:opacity .15s;
+}
+.btn-next:active::after { opacity:.12; }
+.btn-next:not(:disabled):hover {
+  background:var(--gold2);
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(255,191,0,.45);
+}
+.btn-next:disabled {
+  background:var(--dust);
+  color:var(--muted);
+  cursor:not-allowed;
+  transform:none;
+  box-shadow:none;
+}
+.btn-arrow {
+  font-size:1rem;
+  transition:transform .2s var(--ease-spring);
+}
+.btn-next:not(:disabled):hover .btn-arrow { transform:translateX(4px); }
+
+.ftr-row {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:8px;
+  min-height:32px;
+}
+.btn-back {
+  background:none; border:none;
+  font-size:.78rem; color:#B0A080;
+  cursor:pointer; padding:4px 2px;
+  font-family:'Sora',sans-serif;
+  display:flex; align-items:center; gap:4px;
+  transition:color .15s;
+}
+.btn-back:hover { color:var(--ink); }
+.btn-skip {
+  background:none; border:none;
+  font-size:.78rem; color:#B0A080;
+  cursor:pointer; padding:4px 2px;
+  font-family:'Sora',sans-serif;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  transition:color .15s;
+}
+.btn-skip:hover { color:var(--ink); }
+.auto-hint {
+  text-align:center; font-size:.69rem;
+  color:var(--muted); margin-top:6px;
+  display:flex; align-items:center; justify-content:center; gap:5px;
+}
+.hint-dot {
+  width:5px; height:5px; border-radius:50%;
+  background:var(--gold); animation:blink 1.4s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+/* ══════════════════════════════════════════
+   SLIDES — Animation
+══════════════════════════════════════════ */
+.slide {
+  padding:26px 20px 20px;
+  min-height:100%;
+  animation:slideIn .36s var(--ease-out) both;
+  background:#1A1400;
+}
+@keyframes slideIn {
+  from { opacity:0; transform:translateX(48px) }
+  to   { opacity:1; transform:translateX(0) }
+}
+.slide.back-anim {
+  animation:slideBack .36s var(--ease-out) both;
+}
+@keyframes slideBack {
+  from { opacity:0; transform:translateX(-48px) }
+  to   { opacity:1; transform:translateX(0) }
+}
+
+/* ── Q HEADER — Toujours visible ── */
+.q-tag {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:.66rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.1em;
+  color:var(--gold2);
+  background:var(--dust);
+  padding:4px 12px; border-radius:20px;
+  margin-bottom:14px;
+  border:1px solid var(--border);
+}
+
+.q-text {
+  font-family:'Fraunces',serif;
+  font-size:clamp(1.2rem,5.5vw,1.6rem);
+  font-weight:700; line-height:1.22;
+  color:#FFFFFF;
+  margin-bottom:6px;
+  letter-spacing:-.025em;
+}
+.q-text em { color:var(--gold); font-style:italic; }
+
+.q-sub {
+  font-size:.78rem; color:#B0A080;
+  line-height:1.55; margin-bottom:18px;
+}
+
+/* ══════════════════════════════════════════
+   OPTIONS
+══════════════════════════════════════════ */
+.options { display:flex; flex-direction:column; gap:9px; margin-top:14px; }
+
+.opt {
+  display:flex; align-items:center; gap:12px;
+  padding:14px 15px;
+  background:#261D00;
+  border:2px solid #3D2E00;
+  border-radius:13px;
+  cursor:pointer;
+  transition:all .17s var(--ease-snap);
+  -webkit-user-select:none; user-select:none;
+  position:relative; overflow:hidden;
+}
+.opt:active { transform:scale(.975); }
+.opt:hover { border-color:var(--gold); background:#2E2200; }
+.opt.selected {
+  border-color:var(--gold);
+  background:rgba(255,191,0,.12);
+  box-shadow:0 0 0 1px var(--gold), 0 3px 14px rgba(255,191,0,.2);
+}
+
+/* Ripple */
+.opt::before {
+  content:'';
+  position:absolute; inset:0; border-radius:11px;
+  background:var(--gold); opacity:0;
+  transform:scale(.85); transition:all .25s;
+  pointer-events:none;
+}
+.opt.selected::before { opacity:.06; transform:scale(1); }
+
+/* Indicateur */
+.opt-dot {
+  width:21px; height:21px; flex-shrink:0;
+  border-radius:50%;
+  border:2px solid #3D2E00;
+  background:#1A1400;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s var(--ease-spring);
+}
+.opt.selected .opt-dot {
+  background:var(--gold);
+  border-color:var(--gold);
+  transform:scale(1.15);
+  box-shadow:0 2px 8px rgba(255,191,0,.4);
+}
+.opt-check {
+  opacity:0; color:var(--ink); font-size:.65rem; font-weight:900;
+  transform:scale(0);
+  transition:all .2s var(--ease-spring);
+}
+.opt.selected .opt-check { opacity:1; transform:scale(1); }
+
+/* Checkbox */
+.opt.cb .opt-dot { border-radius:6px; }
+
+/* Lettre / emoji */
+.opt-letter {
+  width:22px; height:22px; flex-shrink:0;
+  border-radius:7px; background:#2E2200;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.63rem; font-weight:700; color:#B0A080;
+  transition:all .17s;
+}
+.opt.selected .opt-letter { background:var(--gold); color:var(--ink); }
+.opt-emoji { font-size:1.15rem; flex-shrink:0; }
+.opt-label {
+  font-size:.88rem; font-weight:500;
+  color:#FFFFFF; line-height:1.35; flex:1;
+}
+.opt.selected .opt-label { color:#FFBF00; font-weight:700; }
+
+/* ══════════════════════════════════════════
+   SCALE
+══════════════════════════════════════════ */
+.scale-wrap { margin-top:14px; }
+.scale-btns {
+  display:flex; gap:5px; margin-bottom:8px;
+}
+.sb {
+  flex:1; padding:12px 4px;
+  border:2px solid var(--border);
+  border-radius:10px; background:white;
+  font-family:'Fraunces',serif;
+  font-size:.92rem; font-weight:700;
+  color:#B0A080; cursor:pointer;
+  transition:all .17s var(--ease-spring);
+  text-align:center;
+  -webkit-user-select:none; user-select:none;
+}
+.sb:hover { border-color:var(--gold); color:var(--gold2); }
+.sb.selected {
+  background:var(--gold); border-color:var(--gold);
+  color:var(--ink); transform:scale(1.1);
+  box-shadow:0 4px 14px rgba(255,191,0,.35);
+}
+.scale-labels {
+  display:flex; justify-content:space-between;
+  font-size:.67rem; color:var(--muted);
+}
+
+/* ══════════════════════════════════════════
+   TEXTAREA / INPUT
+══════════════════════════════════════════ */
+.q-textarea {
+  width:100%; padding:15px;
+  border:2px solid #3D2E00; border-radius:13px;
+  font-size:.9rem; font-family:'Sora',sans-serif;
+  resize:none; min-height:100px;
+  color:#FFFFFF; background:#261D00;
+  transition:border-color .18s; line-height:1.6;
+  margin-top:14px;
+}
+.q-textarea:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(255,191,0,.15); }
+.q-textarea::placeholder { color:#C8B88A; }
+
+.q-input {
+  width:100%; padding:15px 16px;
+  border:2px solid #3D2E00; border-radius:13px;
+  font-size:.92rem; font-family:'Sora',sans-serif;
+  color:#FFFFFF; background:#261D00;
+  transition:border-color .18s; margin-bottom:10px;
+  display:block;
+}
+.q-input:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(255,191,0,.15); }
+.q-input::placeholder { color:#C8B88A; }
+
+/* ══════════════════════════════════════════
+   PRICE OPTIONS
+══════════════════════════════════════════ */
+.price-opts { display:flex; flex-direction:column; gap:9px; margin-top:14px; }
+.p-opt {
+  display:flex; align-items:center; gap:13px;
+  padding:14px 15px;
+  background:#261D00; border:2px solid #3D2E00; border-radius:13px;
+  cursor:pointer; transition:all .17s var(--ease-snap);
+  -webkit-user-select:none; user-select:none;
+}
+.p-opt:hover { border-color:var(--gold); background:#2E2200; }
+.p-opt.selected { border-color:var(--gold); background:rgba(255,191,0,.07); box-shadow:0 0 0 1px var(--gold), 0 3px 14px rgba(255,191,0,.2); }
+.p-opt .opt-dot { flex-shrink:0; }
+.p-opt.selected .opt-dot { background:var(--gold); border-color:var(--gold); transform:scale(1.12); }
+.p-val {
+  font-family:'Fraunces',serif;
+  font-size:1rem; font-weight:700;
+  color:#F0E8D0; min-width:90px;
+}
+.p-desc { font-size:.75rem; color:#B0A080; flex:1; line-height:1.4; }
+
+/* ══════════════════════════════════════════
+   NOTE
+══════════════════════════════════════════ */
+.note {
+  margin-top:13px; padding:11px 14px;
+  background:#2E2200; border-radius:10px;
+  border-left:3px solid var(--gold);
+  font-size:.76rem; color:#B0A080; line-height:1.55;
+}
+.note b { color:var(--ink2); }
+
+/* ══════════════════════════════════════════
+   INTRO SLIDE
+══════════════════════════════════════════ */
+.intro-wrap {
+  min-height:100%;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:32px 20px 24px;
+  animation:introIn .5s var(--ease-out) both;
+  background:#1A1400;
+}
+@keyframes introIn {
+  from { opacity:0; transform:translateY(24px) }
+  to   { opacity:1; transform:translateY(0) }
+}
+.intro-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--gold); color:var(--ink);
+  padding:5px 14px; border-radius:20px;
+  font-size:.7rem; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase;
+  margin-bottom:20px; width:fit-content;
+  box-shadow:0 3px 12px rgba(255,191,0,.35);
+}
+.intro-dot { width:6px; height:6px; background:var(--ink); border-radius:50%; animation:blink 1.4s infinite; }
+.intro-title {
+  font-family:'Fraunces',serif;
+  font-size:clamp(2rem,8vw,2.6rem);
+  font-weight:900; line-height:1.08;
+  color:#FFFFFF; margin-bottom:14px;
+  letter-spacing:-.035em;
+}
+.intro-title em { color:var(--gold); font-style:italic; }
+.intro-desc {
+  font-size:.88rem; color:#B0A080;
+  line-height:1.7; margin-bottom:24px;
+}
+.intro-chips {
+  display:flex; gap:8px; flex-wrap:wrap;
+  margin-bottom:30px;
+}
+.chip {
+  padding:6px 14px; border-radius:20px;
+  background:#261D00; border:1.5px solid #3D2E00;
+  font-size:.72rem; font-weight:600;
+  color:#F0E8D0;
+}
+
+/* ══════════════════════════════════════════
+   SECTION BREAK SLIDE
+══════════════════════════════════════════ */
+.sec-wrap {
+  min-height:100%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:32px 20px;
+  animation:secIn .4s var(--ease-spring) both;
+  background:#1A1400;
+}
+@keyframes secIn {
+  from { opacity:0; transform:scale(.92) }
+  to   { opacity:1; transform:scale(1) }
+}
+.sec-icon {
+  width:64px; height:64px; border-radius:20px;
+  background:var(--gold); color:var(--ink);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.8rem; margin-bottom:16px;
+  box-shadow:0 6px 20px rgba(255,191,0,.35);
+}
+.sec-part {
+  font-size:.68rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.1em;
+  color:var(--gold); margin-bottom:8px; background:var(--ink); padding:4px 12px; border-radius:20px; display:inline-block;
+}
+.sec-title {
+  font-family:'Fraunces',serif;
+  font-size:1.7rem; font-weight:900;
+  color:#FFFFFF; margin-bottom:8px; line-height:1.15;
+}
+.sec-desc {
+  font-size:.82rem; color:#B0A080;
+  line-height:1.6; max-width:260px;
+  margin:0 auto 28px;
+}
+
+/* ══════════════════════════════════════════
+   CONCEPT CARD
+══════════════════════════════════════════ */
+.concept-card {
+  margin-top:14px; margin-bottom:16px;
+  padding:16px;
+  background:#261D00;
+  border:2px solid var(--gold);
+  border-radius:14px;
+  position:relative;
+}
+.concept-card::before {
+  content:'Le service';
+  position:absolute; top:-10px; left:14px;
+  background:var(--gold); color:var(--ink);
+  font-size:.65rem; font-weight:700;
+  padding:2px 10px; border-radius:10px;
+  letter-spacing:.06em; text-transform:uppercase;
+}
+.concept-card p {
+  font-size:.85rem; color:#F0E8D0;
+  line-height:1.65;
+}
+.concept-card p strong { color:var(--ink); }
+
+/* ══════════════════════════════════════════
+   THANK YOU
+══════════════════════════════════════════ */
+.ty-wrap {
+  min-height:100%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:36px 20px;
+  animation:tyIn .5s var(--ease-spring) both;
+  background:#1A1400;
+}
+@keyframes tyIn {
+  from { opacity:0; transform:scale(.85) }
+  to   { opacity:1; transform:scale(1) }
+}
+.ty-circle {
+  width:80px; height:80px; border-radius:50%;
+  background:var(--gold);
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.2rem; margin-bottom:20px;
+  box-shadow:0 8px 30px rgba(255,191,0,.4);
+  animation:pulse-circle 2s infinite;
+}
+@keyframes pulse-circle {
+  0%,100%{ box-shadow:0 8px 30px rgba(255,191,0,.4) }
+  50%{ box-shadow:0 8px 40px rgba(255,191,0,.7) }
+}
+.ty-title {
+  font-family:'Fraunces',serif;
+  font-size:2rem; font-weight:900;
+  color:#FFFFFF; margin-bottom:10px;
+}
+.ty-sub {
+  font-size:.86rem; color:#B0A080;
+  line-height:1.7; max-width:290px;
+  margin:0 auto 28px;
+}
+.ty-btn {
+  width:100%; padding:15px;
+  border:none; border-radius:13px;
+  font-size:.92rem; font-weight:700;
+  font-family:'Sora',sans-serif;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:all .2s; margin-bottom:10px;
+}
+.ty-btn.green { background:#25D366; color:white; }
+.ty-btn.dark  { background:var(--ink); color:var(--gold); }
+.ty-btn:hover { transform:translateY(-2px); opacity:.9; }
+
+.submit-ok {
+  font-size:.75rem; color:var(--cyan);
+  font-weight:600; margin-top:8px;
+  display:flex; align-items:center; justify-content:center; gap:5px;
+}
+
+/* Desktop */
+@media(min-width:600px){
+  body { background:#1A1200; }
+  .app {
+    margin:20px auto;
+    height:calc(100vh - 40px);
+    height:calc(100dvh - 40px);
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+  }
+}
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-top">
+      <div class="logo">
+        <div class="logo-mark">B</div>
+        <div>
+          <div class="logo-name">Build Africa Group</div>
+          <div class="logo-tag">Building Trust. Shaping Africa.</div>
+        </div>
+      </div>
+      <div class="counter" id="counter"></div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-bar" id="progBar"></div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content" id="content"></div>
+
+  <!-- FOOTER STICKY -->
+  <div class="ftr" id="footer" style="display:none">
+    <button class="btn-next" id="btnNext" disabled>
+      Continuer <span class="btn-arrow">→</span>
+    </button>
+    <div class="ftr-row">
+      <button class="btn-back" id="btnBack" onclick="goBack()">← Retour</button>
+      <button class="btn-skip" id="btnSkip" style="display:none" onclick="goNext()">Passer →</button>
+    </div>
+    <div class="auto-hint" id="autoHint" style="display:none">
+      <span class="hint-dot"></span> Choisissez une réponse pour continuer
+    </div>
+  </div>
+
+</div>
+
+<!-- NETLIFY FORM (détection statique) -->
+<form name="bag-survey" netlify netlify-honeypot="bot" hidden>
+  <input name="bot" type="hidden">
+  <input name="ts" type="hidden">
+  <input name="nationalite" type="hidden">
+  <input name="pays" type="hidden">
+  <input name="duree" type="hidden">
+  <input name="age" type="hidden">
+  <input name="statut" type="hidden">
+  <input name="experience" type="hidden">
+  <input name="problemes" type="hidden">
+  <input name="peur" type="hidden">
+  <input name="horizon" type="hidden">
+  <input name="concept_score" type="hidden">
+  <input name="garantie" type="hidden">
+  <input name="frein" type="hidden">
+  <input name="prix" type="hidden">
+  <input name="type_projet" type="hidden">
+  <input name="budget" type="hidden">
+  <input name="nps" type="hidden">
+  <input name="services" type="hidden">
+  <input name="confiance" type="hidden">
+  <input name="commentaire" type="hidden">
+  <input name="email" type="hidden">
+  <input name="whatsapp" type="hidden">
+</form>
+
+<script>
+// ═══════════════════════════════════════════════
+// LABELS LISIBLES
+// ═══════════════════════════════════════════════
+const L = {
+  nationalite: ['Cameroun','Congo (RDC)','Congo (Brazzaville)','Côte d\'Ivoire','Sénégal','Gabon','Togo','Bénin','Mali','Burkina Faso','Autre pays africain','Autre pays'],
+  pays:        ['France','Belgique','Suisse','Canada','États-Unis','Royaume-Uni','Autre pays africain','Autre pays'],
+  duree:       ['Moins de 2 ans','2 à 5 ans','5 à 10 ans','Plus de 10 ans'],
+  age:         ['18–25 ans','26–35 ans','36–45 ans','46–55 ans','Plus de 55 ans'],
+  statut:      ['Salarié privé','Fonctionnaire','Entrepreneur','Profession libérale','Étudiant','Autre'],
+  experience:  ['Oui — bien passé','Oui — mal tourné','Oui — mitigé','Non — j\'y pense','Non — pas encore envisagé'],
+  problemes:   ['Fonds envoyés sans travaux','Mauvaise qualité','Retards importants','Argent détourné famille','Entrepreneur abandonné','Problème titre foncier','Aucun problème'],
+  horizon:     ['Projet actif','Dans 12 mois','Dans 1 à 3 ans','Long terme 3–5 ans','Pas encore de projet'],
+  garantie:    ['Escrow jalons','Ingénieurs certifiés','Photos hebdo','Contrat droit français','Contrôleur indépendant','WhatsApp ingénieur'],
+  frein:       ['Prix trop élevé','Marque inconnue','Préfère famille','Pas les moyens','Pas encore prêt','Rien — je suis partant'],
+  prix:        ['5–10 %','10–15 %','15–20 %','Forfait fixe','Je ne paierais pas'],
+  type_projet: ['Villa séjours','Immeuble locatif','Maison pour famille','Rénovation','Projet commercial'],
+  budget:      ['< 15 000 EUR','15–30 000 EUR','30–60 000 EUR','60–100 000 EUR','> 100 000 EUR','Pas défini'],
+  services:    ['Vérification titre','Gestion locative','Investissement collectif','Réparations','Évaluation bien'],
+  confiance:   ['Visite réalisation','Parler client','Certifications','Avis en ligne','Recommandation ami','Petit projet test'],
+};
+
+function label(key, val) {
+  if (val === undefined || val === null || val === '') return '';
+  const map = L[key];
+  if (!map) return String(val);
+  if (Array.isArray(val)) return val.map(i => map[i] ?? i).join(', ');
+  return map[val] ?? String(val);
+}
+
+// ═══════════════════════════════════════════════
+// QUESTIONS
+// ═══════════════════════════════════════════════
+const QQ = [
+
+  { type:'intro' },
+
+  { type:'section', icon:'🌍', part:'Partie 1 / 4', title:'Votre profil', desc:'5 questions rapides pour mieux vous connaître', btn:'Commencer →' },
+
+  { id:'nationalite', type:'single', tag:'1 / 20', req:true,
+    text:"Vous êtes d'où ? Votre pays d'origine ?",
+    opts:[
+      {l:'Cameroun'},{l:'Congo (RDC)'},
+      {l:'Congo (Brazzaville)'},{l:"Côte d'Ivoire"},
+      {l:'Sénégal'},{l:'Gabon'},
+      {l:'Togo'},{l:'Bénin'},
+      {l:'Mali'},{l:'Burkina Faso'},
+      {l:'Autre pays africain'},{l:'Autre pays'},
+    ], auto:true },
+
+  { id:'pays', type:'single', tag:'2 / 20', req:true,
+    text:'Dans quel pays habitez-vous ?',
+    opts:[
+      {e:'🇫🇷',l:'France'},{e:'🇧🇪',l:'Belgique'},
+      {e:'🇨🇭',l:'Suisse'},{e:'🇨🇦',l:'Canada'},
+      {e:'🇺🇸',l:'États-Unis'},{e:'🇬🇧',l:'Royaume-Uni'},
+      {e:'🌍',l:'Autre pays africain'},{e:'🌐',l:'Autre pays'},
+    ], auto:true },
+
+  { id:'duree', type:'single', tag:'3 / 20', req:true,
+    text:'Depuis combien de temps habitez-vous hors de votre pays d\'origine ?',
+    opts:[{l:'Moins de 2 ans'},{l:'2 à 5 ans'},{l:'5 à 10 ans'},{l:'Plus de 10 ans'}],
+    auto:true },
+
+  { id:'age', type:'single', tag:'4 / 20', req:true,
+    text:'Vous avez quel âge ?',
+    opts:[{l:'18 – 25 ans'},{l:'26 – 35 ans'},{l:'36 – 45 ans'},{l:'46 – 55 ans'},{l:'Plus de 55 ans'}],
+    auto:true },
+
+  { id:'statut', type:'single', tag:'5 / 20', req:true,
+    text:'Quelle est votre situation professionnelle ?',
+    opts:[{l:'Salarié(e) secteur privé'},{l:'Fonctionnaire'},{l:'Entrepreneur(e)'},{l:'Profession libérale'},{l:'Étudiant(e)'},{l:'Autre'}],
+    auto:true },
+
+  { type:'section', icon:'🏗️', part:'Partie 2 / 4', title:'Votre vécu', desc:'Vos expériences avec l\'investissement immobilier', btn:'Continuer →' },
+
+  { id:'experience', type:'single', tag:'6 / 20', req:true,
+    text:'Avez-vous déjà tenté d\'investir dans une construction dans votre pays d\'origine ?',
+    opts:[
+      {e:'✅',l:'Oui — ça s\'est bien passé'},
+      {e:'😤',l:'Oui — ça a mal tourné'},
+      {e:'😕',l:'Oui — résultat mitigé'},
+      {e:'🤔',l:'Non — mais j\'y pense sérieusement'},
+      {e:'💭',l:'Non — pas encore envisagé'},
+    ], auto:true },
+
+  { id:'problemes', type:'multi', tag:'7 / 20', req:false,
+    text:'Si vous avez eu des problèmes, lesquels ?',
+    sub:'Plusieurs choix possibles — Passez si non concerné(e)',
+    opts:[
+      {l:'Fonds envoyés, peu ou pas de travaux'},
+      {l:'Travaux de mauvaise qualité'},
+      {l:'Retards importants sans explications'},
+      {l:'Argent détourné par la famille'},
+      {l:'Entrepreneur qui a abandonné'},
+      {l:'Problèmes de titre foncier'},
+      {l:'Aucun problème personnel'},
+    ], skip:true },
+
+  { id:'peur', type:'text', tag:'8 / 20', req:false,
+    text:'Quelle est votre plus grande peur concernant ce type de projet ?',
+    sub:'En 1 ou 2 phrases — répondez librement',
+    ph:'Ex : "Que quelqu\'un détourne mon argent sans recours possible..."',
+    skip:true },
+
+  { id:'horizon', type:'single', tag:'9 / 20', req:true,
+    text:'Quel est votre horizon de projet immobilier ?',
+    opts:[
+      {e:'🔥',l:'Projet actif en ce moment'},
+      {e:'📅',l:'Dans les 12 prochains mois'},
+      {e:'🗓️',l:'Dans 1 à 3 ans'},
+      {e:'🔮',l:'Objectif long terme (3–5 ans)'},
+      {e:'💭',l:'Pas encore de projet concret'},
+    ], auto:true },
+
+  { type:'section', icon:'💡', part:'Partie 3 / 4', title:'Le concept', desc:'Votre avis honnête sur la proposition Build Africa Group', btn:'Continuer →' },
+
+  { id:'concept', type:'concept', tag:'10 / 20', req:true,
+    text:'Ce service répond-il à un besoin réel pour vous ?',
+    concept:'Vous êtes en France. Votre maison se construit au Cameroun. <strong>Une entreprise française en répond devant la loi.</strong> Contrat signé ici. Ingénieur certifié sur place. Votre argent libéré uniquement quand <em>vous</em> validez. Si ça ne va pas — <strong>vous attaquez en France.</strong> C\'est ça, Build Africa Group.',
+    min:'😐 Pas du tout', max:'🙌 Exactement ça !' },
+
+  { id:'garantie', type:'multi', tag:'11 / 20', req:true,
+    text:'Les 2 garanties qui vous rassurent le plus ?',
+    sub:'Choisissez exactement 2 réponses', max:2,
+    opts:[
+      {e:'🔒',l:'Argent bloqué jusqu\'à validation'},
+      {e:'👷',l:'Ingénieurs certifiés et vérifiables'},
+      {e:'📸',l:'Photos du chantier chaque semaine'},
+      {e:'⚖️',l:'Contrat en droit français'},
+      {e:'🔍',l:'Contrôleur indépendant à chaque étape'},
+      {e:'📱',l:'Accès direct à l\'ingénieur sur WhatsApp'},
+    ]},
+
+  { id:'frein', type:'single', tag:'12 / 20', req:true,
+    text:'Ce qui pourrait vous empêcher d\'utiliser ce service ?',
+    opts:[
+      {e:'💶',l:'Le prix trop élevé'},
+      {e:'🤷',l:'Je ne connais pas encore la marque'},
+      {e:'👨‍👩‍👧',l:'Je préfère gérer via la famille'},
+      {e:'⏳',l:'Pas les moyens financiers pour l\'instant'},
+      {e:'✋',l:'Pas encore prêt(e) à me lancer'},
+      {e:'🚀',l:'Rien — si c\'est comme décrit, je suis partant(e)'},
+    ], auto:true },
+
+  { type:'section', icon:'💰', part:'Partie 4 / 4', title:'Ce que vous paieriez', desc:'La question la plus importante — votre honnêteté change tout', btn:'Dernière partie →' },
+
+  { id:'prix', type:'price', tag:'13 / 20', req:true,
+    text:'Quels frais de gestion vous sembleraient justes sur un projet de 40 000 EUR ?',
+    note:'<b>Pour comparer :</b> un architecte en France facture 10–15 % pour un service similaire.',
+    opts:[
+      {v:'5 – 10 %',   d:'soit 2 000 – 4 000 EUR sur 40 000 EUR'},
+      {v:'10 – 15 %',  d:'soit 4 000 – 6 000 EUR sur 40 000 EUR'},
+      {v:'15 – 20 %',  d:'soit 6 000 – 8 000 EUR — tarif maîtrise d\'œuvre standard'},
+      {v:'Forfait fixe',d:'Je préfère un tarif fixe indépendant du budget'},
+      {v:'Je ne paierais pas', d:'Je préfère gérer seul(e) ou via la famille'},
+    ]},
+
+  { id:'type_projet', type:'single', tag:'14 / 20', req:true,
+    text:'Pour quel type de projet feriez-vous appel à Build Africa Group ?',
+    opts:[
+      {e:'🏡',l:'Villa pour mes séjours au pays'},
+      {e:'🏢',l:'Immeuble locatif pour revenus passifs'},
+      {e:'👨‍👩‍👧',l:'Maison pour ma famille restée au pays'},
+      {e:'🔨',l:'Rénovation ou extension d\'un bien existant'},
+      {e:'🏪',l:'Projet commercial (boutique, bureaux)'},
+    ], auto:true },
+
+  { id:'budget', type:'single', tag:'15 / 20', req:true,
+    text:'Quel budget pour votre prochain projet immobilier ?',
+    opts:[
+      {l:'Moins de 15 000 EUR'},{l:'15 000 – 30 000 EUR'},
+      {l:'30 000 – 60 000 EUR'},{l:'60 000 – 100 000 EUR'},
+      {l:'Plus de 100 000 EUR'},{l:'Pas encore défini'},
+    ], auto:true },
+
+  { id:'nps', type:'scale', tag:'16 / 20', req:true,
+    text:'Recommanderiez-vous Build Africa Group à un ami de la diaspora ?',
+    min:'👎 Jamais', max:'👍 Certainement !' },
+
+  { id:'services', type:'multi', tag:'17 / 20', req:false,
+    text:'Quels autres services vous intéresseraient ?',
+    sub:'Plusieurs choix possibles — optionnel',
+    opts:[
+      {e:'🔍',l:'Vérification de titre foncier'},
+      {e:'🏘️',l:'Gestion locative à distance'},
+      {e:'🤝',l:'Investissement collectif diaspora'},
+      {e:'🔧',l:'Réparations et maintenance'},
+      {e:'📊',l:'Évaluation de la valeur d\'un bien'},
+    ], skip:true },
+
+  { id:'confiance', type:'single', tag:'18 / 20', req:true,
+    text:'Comment vérifieriez-vous la crédibilité de Build Africa Group ?',
+    opts:[
+      {e:'🏠',l:'Visiter une ancienne réalisation en personne'},
+      {e:'💬',l:'Parler directement à un ancien client'},
+      {e:'📄',l:'Vérifier les certifications officielles'},
+      {e:'⭐',l:'Lire des avis et témoignages en ligne'},
+      {e:'👥',l:'Recommandation d\'un ami de confiance'},
+      {e:'🧪',l:'Commencer par un petit projet test'},
+    ], auto:true },
+
+  { id:'commentaire', type:'text', tag:'19 / 20', req:false,
+    text:'Un message pour l\'équipe Build Africa Group ?',
+    sub:'Conseils, doutes, suggestions — tout est bienvenu',
+    ph:'Écrivez librement...', skip:true },
+
+  { id:'contact', type:'contact', tag:'20 / 20' },
+
+  { type:'thankyou' },
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let cur = 0;
+let ans = {};
+let isBack = false;
+const QCount = QQ.filter(q => !['intro','section','thankyou'].includes(q.type)).length;
+
+// ═══════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════
+function render(idx, back=false) {
+  const q = QQ[idx];
+  const content = document.getElementById('content');
+  const footer  = document.getElementById('footer');
+
+  content.innerHTML = '';
+
+  const slide = document.createElement('div');
+  slide.className = 'slide' + (back ? ' back-anim' : '');
+  slide.innerHTML = buildContent(q);
+  content.appendChild(slide);
+  content.scrollTop = 0;
+
+  updateHeader(q, idx);
+  updateFooter(q);
+}
+
+// ═══════════════════════════════════════════════
+// BUILD CONTENT
+// ═══════════════════════════════════════════════
+function buildContent(q) {
+  switch(q.type) {
+    case 'intro':    return buildIntro();
+    case 'section':  return buildSection(q);
+    case 'thankyou': return buildThankyou();
+    case 'concept':  return buildConcept(q);
+    case 'contact':  return buildContact(q);
+    default:         return buildQuestion(q);
+  }
+}
+
+function buildIntro() {
+  return `<div class="intro-wrap">
+    <div class="intro-badge"><span class="intro-dot"></span> Étude de marché 2025</div>
+    <h1 class="intro-title">Votre avis nous aide à mieux <em>préparer votre projet</em> de construction</h1>
+    <p class="intro-desc">Build Africa Group prépare une plateforme de construction sécurisée pour la diaspora africaine. 2 minutes. Votre honnêteté est notre ressource la plus précieuse.</p>
+    <div class="intro-chips">
+      <span class="chip">⏱ 2 minutes</span>
+      <span class="chip">🔒 Anonyme</span>
+      <span class="chip">🌍 Diaspora africaine</span>
+    </div>
+    <button class="btn-next" onclick="goNext()" style="max-width:100%">Démarrer <span class="btn-arrow">→</span></button>
+  </div>`;
+}
+
+function buildSection(q) {
+  return `<div class="sec-wrap">
+    <div class="sec-icon">${q.icon}</div>
+    <div class="sec-part">${q.part}</div>
+    <div class="sec-title">${q.title}</div>
+    <p class="sec-desc">${q.desc}</p>
+    <button class="btn-next" onclick="goNext()" style="max-width:300px">${q.btn}</button>
+  </div>`;
+}
+
+function buildThankyou() {
+  return `<div class="ty-wrap">
+    <div class="ty-circle">🙏</div>
+    <div class="ty-title">Merci !</div>
+    <p class="ty-sub">Vos réponses contribuent directement à la construction d'un service adapté à la diaspora africaine francophone.<br><br>Si vous avez laissé vos coordonnées, nous vous contacterons lors du lancement.</p>
+    <button class="ty-btn green" onclick="shareWA()">💬 Partager sur WhatsApp</button>
+    <button class="ty-btn dark" onclick="copyLink()">🔗 Copier le lien</button>
+    <div class="submit-ok" id="submitOk"></div>
+  </div>`;
+}
+
+function buildConcept(q) {
+  const saved = ans[q.id];
+  return `
+    <div class="q-tag">${q.tag}</div>
+    <div class="q-text">${q.text}</div>
+    <div class="concept-card"><p>${q.concept}</p></div>
+    <div class="scale-wrap">
+      <div class="scale-btns">
+        ${[1,2,3,4,5,6,7,8,9,10].map(n=>`
+          <button class="sb${saved==n?' selected':''}" onclick="pickScale(this,${n},'${q.id}')">${n}</button>
+        `).join('')}
+      </div>
+      <div class="scale-labels"><span>${q.min}</span><span>${q.max}</span></div>
+    </div>`;
+}
+
+function buildContact(q) {
+  const saved = ans['contact'] || {};
+  return `
+    <div class="q-tag">${q.tag}</div>
+    <div class="q-text">Être informé(e) du lancement en priorité ?</div>
+    <p class="q-sub">Complètement optionnel — vous restez anonyme si vous ne remplissez pas</p>
+    <input class="q-input" type="email" placeholder="Votre email" value="${saved.email||''}"
+           oninput="ans['contact']={...ans['contact'],email:this.value}" style="margin-top:14px">
+    <input class="q-input" type="tel" placeholder="WhatsApp (ex: +33 6 12 34 56 78)" value="${saved.wa||''}"
+           oninput="ans['contact']={...ans['contact'],wa:this.value}">
+    <div class="note">🔒 Données confidentielles — uniquement pour vous informer du lancement.</div>`;
+}
+
+function buildQuestion(q) {
+  let body = '';
+
+  if (q.type === 'single' || q.type === 'multi') {
+    const saved = ans[q.id];
+    const savedArr = Array.isArray(saved) ? saved : (saved !== undefined ? [saved] : []);
+    const isMulti = q.type === 'multi';
+    const letters = 'ABCDEFGHIJKLMNOP';
+    body = `<div class="options">
+      ${q.opts.map((o,i)=>`
+        <div class="opt${isMulti?' cb':''}${savedArr.includes(i)?' selected':''}"
+             onclick="pickOpt(this,${i},'${q.id}',${isMulti},${q.auto||false},${q.max||99})">
+          ${o.e ? `<div class="opt-emoji">${o.e}</div>` : `<div class="opt-letter">${letters[i]}</div>`}
+          <span class="opt-label">${o.l}</span>
+          <div class="opt-dot"><span class="opt-check">✓</span></div>
+        </div>`).join('')}
+    </div>`;
+  }
+
+  else if (q.type === 'scale') {
+    const saved = ans[q.id];
+    body = `<div class="scale-wrap">
+      <div class="scale-btns">
+        ${[1,2,3,4,5,6,7,8,9,10].map(n=>`
+          <button class="sb${saved==n?' selected':''}" onclick="pickScale(this,${n},'${q.id}')">${n}</button>
+        `).join('')}
+      </div>
+      <div class="scale-labels"><span>${q.min}</span><span>${q.max}</span></div>
+    </div>`;
+  }
+
+  else if (q.type === 'text') {
+    body = `<textarea class="q-textarea" placeholder="${q.ph||'Votre réponse...'}"
+      oninput="ans['${q.id}']=this.value">${ans[q.id]||''}</textarea>`;
+  }
+
+  else if (q.type === 'price') {
+    const saved = ans[q.id];
+    body = `<div class="price-opts">
+      ${q.opts.map((o,i)=>`
+        <div class="p-opt${saved===i?' selected':''}" onclick="pickPrice(this,${i},'${q.id}')">
+          <div class="opt-dot"><span class="opt-check">✓</span></div>
+          <div class="p-val">${o.v}</div>
+          <div class="p-desc">${o.d}</div>
+        </div>`).join('')}
+    </div>`;
+  }
+
+  const noteHTML = q.note ? `<div class="note">${q.note}</div>` : '';
+
+  return `
+    <div class="q-tag">${q.tag}</div>
+    <div class="q-text">${q.text}</div>
+    ${q.sub ? `<p class="q-sub">${q.sub}</p>` : ''}
+    ${body}
+    ${noteHTML}`;
+}
+
+// ═══════════════════════════════════════════════
+// FOOTER UPDATE
+// ═══════════════════════════════════════════════
+function updateFooter(q) {
+  const footer   = document.getElementById('footer');
+  const btnNext  = document.getElementById('btnNext');
+  const btnBack  = document.getElementById('btnBack');
+  const btnSkip  = document.getElementById('btnSkip');
+  const autoHint = document.getElementById('autoHint');
+
+  // Slides sans footer
+  if (['intro','section','thankyou'].includes(q.type)) {
+    footer.style.display = 'none';
+    return;
+  }
+
+  footer.style.display = 'block';
+
+  // Back visible sauf intro
+  btnBack.style.display = cur > 0 ? 'flex' : 'none';
+
+  // Skip
+  btnSkip.style.display = q.skip ? 'block' : 'none';
+
+  // Auto-hint
+  if (q.auto) {
+    autoHint.style.display = 'flex';
+    btnNext.style.display = 'none';
+  } else {
+    autoHint.style.display = 'none';
+    btnNext.style.display = 'flex';
+  }
+
+  // Contact — bouton toujours actif
+  if (q.type === 'contact') {
+    btnNext.textContent = '';
+    btnNext.innerHTML = 'Terminer et envoyer <span class="btn-arrow">→</span>';
+    btnNext.disabled = false;
+    btnNext.onclick = submitAndFinish;
+    return;
+  }
+
+  // Désactiver si requis et non répondu
+  const answered = isAnswered(q);
+  btnNext.disabled = q.req && !answered;
+  btnNext.innerHTML = 'Continuer <span class="btn-arrow">→</span>';
+  btnNext.onclick = goNext;
+}
+
+function isAnswered(q) {
+  const a = ans[q.id];
+  if (a === undefined || a === null) return false;
+  if (Array.isArray(a)) return a.length > 0;
+  if (typeof a === 'string') return a.trim() !== '';
+  return true;
+}
+
+// ═══════════════════════════════════════════════
+// HEADER UPDATE
+// ═══════════════════════════════════════════════
+function updateHeader(q, idx) {
+  const counter = document.getElementById('counter');
+  const bar     = document.getElementById('progBar');
+
+  if (['intro','thankyou'].includes(q.type)) {
+    counter.innerHTML = '';
+    bar.style.width = q.type === 'thankyou' ? '100%' : '0%';
+    return;
+  }
+  if (q.type === 'section') { counter.innerHTML = ''; return; }
+
+  const n = QQ.slice(0, idx+1).filter(x=>!['intro','section','thankyou'].includes(x.type)).length;
+  counter.innerHTML = `<b>${n}</b> / ${QCount}`;
+  bar.style.width = ((n / QCount) * 100) + '%';
+}
+
+// ═══════════════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════════════
+function pickOpt(el, idx, qId, isMulti, auto, maxSel) {
+  const opts = el.closest('.options');
+  if (isMulti) {
+    el.classList.toggle('selected');
+    const sel = [...opts.querySelectorAll('.selected')].map(e => {
+      const m = e.getAttribute('onclick').match(/pickOpt\(this,(\d+)/);
+      return m ? parseInt(m[1]) : -1;
+    }).filter(x => x >= 0);
+    if (sel.length > maxSel) { el.classList.remove('selected'); return; }
+    ans[qId] = sel;
+    const btn = document.getElementById('btnNext');
+    if (btn) btn.disabled = sel.length === 0;
+  } else {
+    opts.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    ans[qId] = idx;
+    if (auto) setTimeout(goNext, 280);
+    else {
+      const btn = document.getElementById('btnNext');
+      if (btn) btn.disabled = false;
+    }
+  }
+}
+
+function pickScale(btn, val, qId) {
+  btn.closest('.scale-btns').querySelectorAll('.sb').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  ans[qId] = val;
+  const nb = document.getElementById('btnNext');
+  if (nb) nb.disabled = false;
+}
+
+function pickPrice(el, idx, qId) {
+  el.closest('.price-opts').querySelectorAll('.p-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  ans[qId] = idx;
+  const btn = document.getElementById('btnNext');
+  if (btn) btn.disabled = false;
+}
+
+// ═══════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════
+function goNext() {
+  if (cur < QQ.length - 1) { cur++; render(cur, false); }
+}
+function goBack() {
+  if (cur > 0) { cur--; render(cur, true); }
+}
+
+// ═══════════════════════════════════════════════
+// SUBMISSION
+// ═══════════════════════════════════════════════
+async function submitAndFinish() {
+  goNext();
+
+  // ⚠️ Remplace cette URL par ton URL Google Apps Script après déploiement
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwULfmbcq21fSNXP4k7rOnUXYwguRdI-vrqG1g83uUPk7ToZ3uFVjWtO0CRzpYviWd3/exec';
+
+  const contact = ans['contact'] || {};
+
+  const payload = {
+    nationalite:  label('nationalite', ans['nationalite']),
+    pays:         label('pays', ans['pays']),
+    duree:        label('duree', ans['duree']),
+    age:          label('age', ans['age']),
+    statut:       label('statut', ans['statut']),
+    experience:   label('experience', ans['experience']),
+    problemes:    label('problemes', ans['problemes']),
+    peur:         ans['peur'] || '',
+    horizon:      label('horizon', ans['horizon']),
+    concept:      ans['concept'] || '',
+    garantie:     label('garantie', ans['garantie']),
+    frein:        label('frein', ans['frein']),
+    prix:         label('prix', ans['prix']),
+    type_projet:  label('type_projet', ans['type_projet']),
+    budget:       label('budget', ans['budget']),
+    nps:          ans['nps'] || '',
+    services:     label('services', ans['services']),
+    confiance:    label('confiance', ans['confiance']),
+    commentaire:  ans['commentaire'] || '',
+    email:        contact.email || '',
+    whatsapp:     contact.wa || ''
+  };
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const el = document.getElementById('submitOk');
+    if (el) el.innerHTML = '✅ Réponses enregistrées — Merci !';
+  } catch(err) {
+    fallback();
+    const el = document.getElementById('submitOk');
+    if (el) el.innerHTML = '⚠ Réponses sauvegardées localement';
+  }
+}
+
+function fallback() {
+  try {
+    const prev = JSON.parse(sessionStorage.getItem('bag_ans') || '[]');
+    prev.push({ ts: new Date().toISOString(), ans });
+    sessionStorage.setItem('bag_ans', JSON.stringify(prev));
+  } catch(e) {}
+}
+
+// ═══════════════════════════════════════════════
+// SHARE
+// ═══════════════════════════════════════════════
+function shareWA() {
+  const txt = encodeURIComponent('Participez à l\'étude de marché de Build Africa Group — 2 minutes pour aider à construire un service pour la diaspora africaine : ' + window.location.href);
+  window.open('https://wa.me/?text=' + txt, '_blank');
+}
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href)
+    .then(() => alert('Lien copié ! Partagez-le sur WhatsApp, Facebook ou par email.'))
+    .catch(() => prompt('Copiez ce lien :', window.location.href));
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+render(0);
+</script>
+</body>
+</html>
