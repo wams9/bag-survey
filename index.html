@@ -451,7 +451,17 @@ body {
   border-left:3px solid var(--gold);
   font-size:.76rem; color:#B0A080; line-height:1.55;
 }
-.note b { color:var(--ink2); }
+.note-sticky {
+  margin-bottom:16px;
+  padding:14px 16px;
+  background:#2E2200;
+  border:2px solid #FFBF00;
+  border-radius:12px;
+  font-size:.8rem; color:#FFFFFF;
+  font-weight:500; line-height:1.65;
+  text-align:left;
+}
+.note b { color:#FFBF00; }
 
 /* ══════════════════════════════════════════
    INTRO SLIDE
@@ -471,9 +481,10 @@ body {
   display:inline-flex; align-items:center; gap:6px;
   background:var(--gold); color:var(--ink);
   padding:5px 14px; border-radius:20px;
-  font-size:.7rem; font-weight:700;
-  letter-spacing:.06em; text-transform:uppercase;
+  font-size:.65rem; font-weight:700;
+  letter-spacing:.04em; text-transform:uppercase;
   margin-bottom:20px; width:fit-content;
+  white-space:nowrap;
   box-shadow:0 3px 12px rgba(255,191,0,.35);
 }
 .intro-dot { width:6px; height:6px; background:var(--ink); border-radius:50%; animation:blink 1.4s infinite; }
@@ -557,9 +568,13 @@ body {
   letter-spacing:.06em; text-transform:uppercase;
 }
 .concept-card p {
-  font-size:.85rem; color:#F0E8D0;
+  font-size:.85rem; color:#FFFFFF;
   line-height:1.65;
 }
+.concept-card strong { color:#FFBF00 !important; }
+.concept-card em { color:#FFBF00 !important; font-style:italic; }
+.concept-card * { color:#FFFFFF; }
+.concept-card strong, .concept-card b { color:#FFBF00 !important; font-weight:700; }
 .concept-card p strong { color:var(--ink); }
 
 /* ══════════════════════════════════════════
@@ -656,6 +671,7 @@ body {
 
   <!-- FOOTER STICKY -->
   <div class="ftr" id="footer" style="display:none">
+    <div id="ftrNote" class="note-sticky" style="display:none;margin-bottom:10px;"></div>
     <button class="btn-next" id="btnNext" disabled>
       Continuer <span class="btn-arrow">→</span>
     </button>
@@ -734,7 +750,7 @@ const QQ = [
 
   { type:'intro' },
 
-  { type:'section', icon:'🌍', part:'Partie 1 / 4', title:'Votre profil', desc:'5 questions rapides pour mieux vous connaître', btn:'Commencer →' },
+  { type:'section', icon:'🌍', part:'Partie 1 / 4', title:'Votre profil', desc:'5 questions rapides pour mieux vous connaître.', btn:"C'est parti ! →" },
 
   { id:'nationalite', type:'single', tag:'1 / 20', req:true,
     text:"Vous êtes d'où ? Votre pays d'origine ?",
@@ -771,7 +787,7 @@ const QQ = [
     opts:[{l:'Salarié(e) secteur privé'},{l:'Fonctionnaire'},{l:'Entrepreneur(e)'},{l:'Profession libérale'},{l:'Étudiant(e)'},{l:'Autre'}],
     auto:true },
 
-  { type:'section', icon:'🏗️', part:'Partie 2 / 4', title:'Votre vécu', desc:'Vos expériences avec l\'investissement immobilier', btn:'Continuer →' },
+  { type:'section', icon:'🏗️', part:'Partie 2 / 4', title:'Votre vécu', desc:"Parfait ! Vos expériences comptent beaucoup. 💪", btn:"Je continue ! →" },
 
   { id:'experience', type:'single', tag:'6 / 20', req:true,
     text:'Avez-vous déjà tenté d\'investir dans une construction dans votre pays d\'origine ?',
@@ -812,11 +828,11 @@ const QQ = [
       {e:'💭',l:'Pas encore de projet concret'},
     ], auto:true },
 
-  { type:'section', icon:'💡', part:'Partie 3 / 4', title:'Le concept', desc:'Votre avis honnête sur la proposition Build Africa Group', btn:'Continuer →' },
+  { type:'section', icon:'💡', part:'Partie 3 / 4', title:'Le concept', desc:"Encore un effort — c'est la partie la plus importante ! 🎯", btn:"Presque fini ! →" },
 
   { id:'concept', type:'concept', tag:'10 / 20', req:true,
     text:'Ce service répond-il à un besoin réel pour vous ?',
-    concept:'Vous êtes en France. Votre maison se construit au Cameroun. <strong>Une entreprise française en répond devant la loi.</strong> Contrat signé ici. Ingénieur certifié sur place. Votre argent libéré uniquement quand <em>vous</em> validez. Si ça ne va pas — <strong>vous attaquez en France.</strong> C\'est ça, Build Africa Group.',
+    concept:'Vous êtes en diaspora. Votre maison se construit au Cameroun. Build Africa Group offre un <strong>cadre juridique français</strong>, un <strong>ingénieur certifié</strong> sur place, une <strong>validation transparente</strong> à chaque étape et une <strong>obligation de résultats</strong> avant libération des fonds. Contrôle total, sérénité assurée. C\'est Build Africa Group.',
     min:'😐 Pas du tout', max:'🙌 Exactement ça !' },
 
   { id:'garantie', type:'multi', tag:'11 / 20', req:true,
@@ -826,7 +842,7 @@ const QQ = [
       {e:'🔒',l:'Argent bloqué jusqu\'à validation'},
       {e:'👷',l:'Ingénieurs certifiés et vérifiables'},
       {e:'📸',l:'Photos du chantier chaque semaine'},
-      {e:'⚖️',l:'Contrat en droit français'},
+      {e:'⚖️',l:'Un recours légal garanti depuis votre pays de résidence'},
       {e:'🔍',l:'Contrôleur indépendant à chaque étape'},
       {e:'📱',l:'Accès direct à l\'ingénieur sur WhatsApp'},
     ]},
@@ -842,11 +858,11 @@ const QQ = [
       {e:'🚀',l:'Rien — si c\'est comme décrit, je suis partant(e)'},
     ], auto:true },
 
-  { type:'section', icon:'💰', part:'Partie 4 / 4', title:'Ce que vous paieriez', desc:'La question la plus importante — votre honnêteté change tout', btn:'Dernière partie →' },
+  { type:'section', icon:'💰', part:'Partie 4 / 4', title:'Dernière ligne droite !', desc:"Plus qu'une étape — votre honnêteté change tout. 🏁", btn:"J'y suis presque ! →" },
 
-  { id:'prix', type:'price', tag:'13 / 20', req:true,
+  { id:'prix', type:'price', tag:'13 / 20', req:true, auto:true,
     text:'Quels frais de gestion vous sembleraient justes sur un projet de 40 000 EUR ?',
-    note:'<b>Pour comparer :</b> un architecte en France facture 10–15 % pour un service similaire.',
+    note:'<span style="color:#FFBF00;font-weight:700;">📌 Pour rappel :</span> en France, un architecte ou maître d\'oeuvre facture entre 8 et 15 % du montant total des travaux pour une mission complète. (Source : Ordre des Architectes, 2026)',
     opts:[
       {v:'5 – 10 %',   d:'soit 2 000 – 4 000 EUR sur 40 000 EUR'},
       {v:'10 – 15 %',  d:'soit 4 000 – 6 000 EUR sur 40 000 EUR'},
@@ -917,6 +933,38 @@ let ans = {};
 let isBack = false;
 const QCount = QQ.filter(q => !['intro','section','thankyou'].includes(q.type)).length;
 
+// ── SAUVEGARDE PROGRESSION ──
+function saveProgress() {
+  try {
+    sessionStorage.setItem('bag_cur', cur);
+    sessionStorage.setItem('bag_ans', JSON.stringify(ans));
+    sessionStorage.setItem('bag_history', JSON.stringify(navHistory));
+  } catch(e) {}
+}
+
+function loadProgress() {
+  try {
+    const savedCur = sessionStorage.getItem('bag_cur');
+    const savedAns = sessionStorage.getItem('bag_ans');
+    const savedHistory = sessionStorage.getItem('bag_history');
+    if (savedCur && savedAns && parseInt(savedCur) > 0) {
+      return {
+        cur: parseInt(savedCur),
+        ans: JSON.parse(savedAns),
+        history: savedHistory ? JSON.parse(savedHistory) : []
+      };
+    }
+  } catch(e) {}
+  return null;
+}
+
+function clearProgress() {
+  try {
+    sessionStorage.removeItem('bag_cur');
+    sessionStorage.removeItem('bag_ans');
+  } catch(e) {}
+}
+
 // ═══════════════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════════════
@@ -953,7 +1001,7 @@ function buildContent(q) {
 
 function buildIntro() {
   return `<div class="intro-wrap">
-    <div class="intro-badge"><span class="intro-dot"></span> Étude de marché 2025</div>
+    <div class="intro-badge"><span class="intro-dot"></span> À nos problèmes, nos solutions.</div>
     <h1 class="intro-title">Votre avis nous aide à mieux <em>préparer votre projet</em> de construction</h1>
     <p class="intro-desc">Build Africa Group prépare une plateforme de construction sécurisée pour la diaspora africaine. 2 minutes. Votre honnêteté est notre ressource la plus précieuse.</p>
     <div class="intro-chips">
@@ -961,7 +1009,7 @@ function buildIntro() {
       <span class="chip">🔒 Anonyme</span>
       <span class="chip">🌍 Diaspora africaine</span>
     </div>
-    <button class="btn-next" onclick="goNext()" style="max-width:100%">Démarrer <span class="btn-arrow">→</span></button>
+    <div style="font-size:.82rem;color:#FFBF00;font-weight:600;margin-bottom:12px;text-align:center;">Prêt(e) à faire partie de l'aventure ?</div><button class="btn-next" onclick="goNext()" style="max-width:100%">Démarrer <span class="btn-arrow">→</span></button>
   </div>`;
 }
 
@@ -1055,7 +1103,7 @@ function buildQuestion(q) {
     const saved = ans[q.id];
     body = `<div class="price-opts">
       ${q.opts.map((o,i)=>`
-        <div class="p-opt${saved===i?' selected':''}" onclick="pickPrice(this,${i},'${q.id}')">
+        <div class="p-opt${saved===i?' selected':''}" onclick="pickPrice(this,${i},'${q.id}',${q.auto||false})">
           <div class="opt-dot"><span class="opt-check">✓</span></div>
           <div class="p-val">${o.v}</div>
           <div class="p-desc">${o.d}</div>
@@ -1063,14 +1111,13 @@ function buildQuestion(q) {
     </div>`;
   }
 
-  const noteHTML = q.note ? `<div class="note">${q.note}</div>` : '';
+  const noteHTML = q.note ? `<div class="${q.id === 'prix' ? 'note-sticky' : 'note'}">${q.note}</div>` : '';
 
   return `
     <div class="q-tag">${q.tag}</div>
     <div class="q-text">${q.text}</div>
     ${q.sub ? `<p class="q-sub">${q.sub}</p>` : ''}
-    ${body}
-    ${noteHTML}`;
+    ${body}`;
 }
 
 // ═══════════════════════════════════════════════
@@ -1104,6 +1151,19 @@ function updateFooter(q) {
   } else {
     autoHint.style.display = 'none';
     btnNext.style.display = 'flex';
+  }
+
+  // Question prix — remplacer bouton par note dans footer
+  const ftrNote = document.getElementById('ftrNote');
+  if (q.id === 'prix') {
+    if (ftrNote) {
+      ftrNote.style.display = 'block';
+      ftrNote.innerHTML = '<span style="color:#FFBF00;font-weight:700;">📌 Pour rappel :</span> en France, un architecte ou maître d\'oeuvre facture entre <strong style="color:#FFBF00">8 et 15 %</strong> du montant total des travaux pour une mission complète. (Source : Ordre des Architectes, 2026)';
+    }
+    autoHint.style.display = 'none';
+    btnNext.style.display = 'none';
+  } else {
+    if (ftrNote) ftrNote.style.display = 'none';
   }
 
   // Contact — bouton toujours actif
@@ -1168,6 +1228,7 @@ function pickOpt(el, idx, qId, isMulti, auto, maxSel) {
     opts.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
     ans[qId] = idx;
+    saveProgress();
     if (auto) setTimeout(goNext, 280);
     else {
       const btn = document.getElementById('btnNext');
@@ -1180,61 +1241,110 @@ function pickScale(btn, val, qId) {
   btn.closest('.scale-btns').querySelectorAll('.sb').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   ans[qId] = val;
+  saveProgress();
   const nb = document.getElementById('btnNext');
   if (nb) nb.disabled = false;
 }
 
-function pickPrice(el, idx, qId) {
+function pickPrice(el, idx, qId, auto) {
   el.closest('.price-opts').querySelectorAll('.p-opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   ans[qId] = idx;
   const btn = document.getElementById('btnNext');
   if (btn) btn.disabled = false;
+  if (auto) setTimeout(goNext, 320);
 }
 
 // ═══════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════
+// ── HISTORIQUE DE NAVIGATION (pile) ──
+// Permet un retour précis même avec des sauts conditionnels
+let navHistory = [];
+
+function getNextIndex(fromIdx) {
+  const q = QQ[fromIdx];
+  const a = ans[q ? q.id : null];
+  let next = fromIdx + 1;
+  if (next >= QQ.length) return fromIdx;
+
+  // ── LOGIQUE CONDITIONNELLE EXPÉRIENCE ──
+  if (q && q.id === 'experience') {
+    // A = 0 (bien passé)    → afficher problemes + peur
+    // B = 1 (mal tourné)    → afficher problemes + peur
+    // C = 2 (mitigé)        → afficher problemes + peur
+    // D = 3 (j'y pense)     → skip problemes, afficher peur
+    // E = 4 (pas envisagé)  → skip problemes ET peur
+    if (a === 3) {
+      // D : sauter problemes, garder peur
+      while (next < QQ.length && QQ[next].id === 'problemes') next++;
+    } else if (a === 4) {
+      // E : sauter problemes ET peur
+      while (next < QQ.length && (QQ[next].id === 'problemes' || QQ[next].id === 'peur')) next++;
+    }
+    // A, B, C : rien à sauter
+  }
+
+  // ── LOGIQUE CONDITIONNELLE HORIZON ──
+  if (q && q.id === 'horizon' && a === 4) {
+    // "Pas encore de projet concret" → sauter type_projet
+    while (next < QQ.length && QQ[next].id === 'type_projet') next++;
+  }
+
+  return next;
+}
+
 function goNext() {
-  if (cur < QQ.length - 1) { cur++; render(cur, false); }
+  const next = getNextIndex(cur);
+  if (next < QQ.length) {
+    navHistory.push(cur); // empiler la page actuelle
+    cur = next;
+    render(cur, false);
+    saveProgress();
+  }
 }
+
 function goBack() {
-  if (cur > 0) { cur--; render(cur, true); }
+  if (navHistory.length > 0) {
+    cur = navHistory.pop(); // dépiler la dernière page visitée
+    render(cur, true);
+    saveProgress();
+  }
 }
+
 
 // ═══════════════════════════════════════════════
 // SUBMISSION
 // ═══════════════════════════════════════════════
 async function submitAndFinish() {
+  clearProgress();
   goNext();
 
-  // ⚠️ Remplace cette URL par ton URL Google Apps Script après déploiement
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwULfmbcq21fSNXP4k7rOnUXYwguRdI-vrqG1g83uUPk7ToZ3uFVjWtO0CRzpYviWd3/exec';
 
   const contact = ans['contact'] || {};
-
   const payload = {
-    nationalite:  label('nationalite', ans['nationalite']),
-    pays:         label('pays', ans['pays']),
-    duree:        label('duree', ans['duree']),
-    age:          label('age', ans['age']),
-    statut:       label('statut', ans['statut']),
-    experience:   label('experience', ans['experience']),
-    problemes:    label('problemes', ans['problemes']),
-    peur:         ans['peur'] || '',
-    horizon:      label('horizon', ans['horizon']),
-    concept:      ans['concept'] || '',
-    garantie:     label('garantie', ans['garantie']),
-    frein:        label('frein', ans['frein']),
-    prix:         label('prix', ans['prix']),
-    type_projet:  label('type_projet', ans['type_projet']),
-    budget:       label('budget', ans['budget']),
-    nps:          ans['nps'] || '',
-    services:     label('services', ans['services']),
-    confiance:    label('confiance', ans['confiance']),
-    commentaire:  ans['commentaire'] || '',
-    email:        contact.email || '',
-    whatsapp:     contact.wa || ''
+    nationalite: label('nationalite', ans['nationalite']),
+    pays:        label('pays', ans['pays']),
+    duree:       label('duree', ans['duree']),
+    age:         label('age', ans['age']),
+    statut:      label('statut', ans['statut']),
+    experience:  label('experience', ans['experience']),
+    problemes:   label('problemes', ans['problemes']),
+    peur:        ans['peur'] || '',
+    horizon:     label('horizon', ans['horizon']),
+    concept:     ans['concept'] || '',
+    garantie:    label('garantie', ans['garantie']),
+    frein:       label('frein', ans['frein']),
+    prix:        label('prix', ans['prix']),
+    type_projet: label('type_projet', ans['type_projet']),
+    budget:      label('budget', ans['budget']),
+    nps:         ans['nps'] || '',
+    services:    label('services', ans['services']),
+    confiance:   label('confiance', ans['confiance']),
+    commentaire: ans['commentaire'] || '',
+    email:       contact.email || '',
+    whatsapp:    contact.wa || ''
   };
 
   try {
@@ -1277,7 +1387,53 @@ function copyLink() {
 // ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
-render(0);
+(function init() {
+  const saved = loadProgress();
+  if (saved && saved.cur > 1) {
+    // Afficher bannière de reprise sur la slide intro
+    ans = saved.ans;
+    navHistory = saved.history || [];
+    cur = 0;
+    render(0);
+    // Ajouter bannière de reprise
+    setTimeout(() => {
+      const wrap = document.querySelector('.intro-wrap');
+      if (!wrap) return;
+      const banner = document.createElement('div');
+      banner.style.cssText = 'background:#2E2200;border:1.5px solid #FFBF00;border-radius:12px;padding:14px 16px;margin-top:16px;font-size:.82rem;color:#FFFFFF;';
+      banner.innerHTML = `<div style="color:#FFBF00;font-weight:700;margin-bottom:6px;">⏸ Vous avez une réponse en cours</div>
+        <div style="margin-bottom:12px;color:#F0E8D0;">Vous étiez à la question ${saved.cur} sur ${QCount}. Reprendre ?</div>
+        <div style="display:flex;gap:10px;">
+          <button onclick="resumeSurvey(${saved.cur})" style="flex:1;padding:10px;background:#FFBF00;border:none;border-radius:8px;font-weight:700;font-family:Sora,sans-serif;cursor:pointer;font-size:.85rem;">Reprendre →</button>
+          <button onclick="restartSurvey()" style="flex:1;padding:10px;background:transparent;border:1.5px solid #3D2E00;border-radius:8px;color:#B0A080;font-family:Sora,sans-serif;cursor:pointer;font-size:.85rem;">Recommencer</button>
+        </div>`;
+      wrap.appendChild(banner);
+    }, 400);
+  } else {
+    navHistory = [];
+    render(0);
+  }
+})();
+
+function resumeSurvey(savedCur) {
+  cur = savedCur;
+  navHistory = [];
+  // Reconstruire l'historique de navigation jusqu'à savedCur
+  let idx = 0;
+  while (idx < savedCur && idx < QQ.length) {
+    navHistory.push(idx);
+    idx = getNextIndex(idx);
+  }
+  render(cur, false);
+}
+
+function restartSurvey() {
+  clearProgress();
+  ans = {};
+  cur = 0;
+  navHistory = [];
+  render(0);
+}
 </script>
 </body>
 </html>
